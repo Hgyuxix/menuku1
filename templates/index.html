@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Menu</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Welcome to Our Café!</h1>
+    <h2>Menu</h2>
+    <form action="/order" method="POST">
+        <ul>
+            {% for item in menu %}
+                <li>
+                    <input type="checkbox" name="item" value="{{ item.name }}|{{ item.price }}">
+                    {{ item.name }} - ${{ "%.2f"|format(item.price) }}
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="submit">Place Order</button>
+    </form>
+</body>
+</html>
