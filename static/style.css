@@ -1,13 +1,23 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
-    padding: 20px;
-    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
     color: #333;
 }
 
-h1, h2 {
-    color: #555;
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, h3 {
+    color: #444;
+    text-align: center;
 }
 
 ul {
@@ -15,17 +25,51 @@ ul {
     padding: 0;
 }
 
-li {
-    margin: 10px 0;
+.menu li, .order li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
 }
-button {
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
+
+.menu li:last-child, .order li:last-child {
+    border-bottom: none;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input, select, button {
+    padding: 10px;
+    border: 1px solid #ddd;
     border-radius: 5px;
+}
+
+button {
+    background: #28a745;
+    color: #fff;
     cursor: pointer;
 }
+
 button:hover {
-    background-color: #0056b3;
+    background: #218838;
+}
+
+.clear {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px;
+    background: #dc3545;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.clear:hover {
+    background: #c82333;
 }
