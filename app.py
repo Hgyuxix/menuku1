@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 # Menu caffeshop
 menu = {
@@ -32,7 +32,7 @@ def clear_order():
     order.clear()
     return render_template("index.html", menu=menu, order=order)
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
