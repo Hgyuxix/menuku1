@@ -53,7 +53,7 @@ def pay():
     img.save(buffered, format="PNG")
     qr_code_base64 = base64.b64encode(buffered.getvalue()).decode()
 
-    return render_template("pay.html", total=total, qr_code=qr_code_base64, account_number=account_number)
+    return render_template("Bayar.html", total=total, qr_code=qr_code_base64, account_number=account_number)
 
 if __name__ == "__main__":
     import os
