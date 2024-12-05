@@ -1,5 +1,4 @@
-opencv-python
-pyzbar
+gunicorn
 qrcode
 Pillow
-pandas
+flask
