@@ -37,7 +37,7 @@ def clear_order():
     order.clear()
     return render_template("index.html", menu=menu, order=order)
 
-@app.route("/pay")
+@app.route("/bayar")
 def pay():
     # Hitung total biaya
     total = sum(menu[item] * quantity for item, quantity in order.items())
