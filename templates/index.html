@@ -3,40 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caffeshop</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <title>MENUKU</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to Caffeshop</h1>
+    <h1>MENUKU :</h1>
+    <ul>
+        {% for item, price in menu.items() %}
+        <li>{{ item }} - Rp{{ price }}</li>
+        {% endfor %}
+    </ul>
 
-        <h2>Menu</h2>
-        <ul class="menu">
-            {% for item, price in menu.items() %}
-                <li>{{ item }} - Rp{{ price }}</li>
+    <h2>Pesanan Anda</h2>
+    <ul>
+        {% for item, qty in order.items() %}
+        <li>{{ item }} ({{ qty }}x) - Rp{{ menu[item] * qty }}</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Total: Rp{{ total }}</strong></p>
+
+    <form action="/add" method="post">
+        <h3>Tambah ke Pesanan</h3>
+        <label for="item">Item:</label>
+        <select name="item" id="item">
+            {% for item in menu.keys() %}
+            <option value="{{ item }}">{{ item }}</option>
             {% endfor %}
-        </ul>
+        </select>
+        <label for="quantity">Jumlah:</label>
+        <input type="number" name="quantity" id="quantity" min="1" value="1">
+        <button type="submit">Tambah</button>
+    </form>
 
-        <h2>Order</h2>
-        <form method="POST" action="/add">
-            <label for="item">Select Item:</label>
-            <select name="item" id="item">
-                {% for item in menu.keys() %}
-                    <option value="{{ item }}">{{ item }}</option>
-                {% endfor %}
-            </select>
-            <label for="quantity">Quantity:</label>
-            <input type="number" name="quantity" id="quantity" min="1" value="1">
-            <button type="submit">Add to Order</button>
-        </form>
-
-        <h3>Your Order</h3>
-        <ul class="order">
-            {% for item, quantity in order.items() %}
-                <li>{{ item }} ({{ quantity }}x): Rp{{ menu[item] * quantity }}</li>
-            {% endfor %}
-        </ul>
-        <a href="/clear" class="clear">Clear Order</a>
-    </div>
+    <a href="/clear">Hapus Pesanan</a>
+    <a href="/bayar">Bayar</a>
 </body>
 </html>

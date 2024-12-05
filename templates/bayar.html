@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bayar Pesanan</title>
+</head>
+<body>
+    <h1>Bayar Pesanan</h1>
+    <p>Total yang harus dibayar: <strong>Rp{{ total }}</strong></p>
+    <p>Silakan transfer ke rekening:</p>
+    <p><strong>{{ account_number }}</strong></p>
+    <p>Scan QR Code untuk mempermudah pembayaran:</p>
+    <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code Pembayaran">
+    <br><br>
+    <a href="/">Kembali ke menu utama</a>
+</body>
+</html>
