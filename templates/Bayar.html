@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bayar Pesanan</title>
+    <title>Pembayaran</title>
 </head>
 <body>
-    <h1>Bayar Pesanan</h1>
-    <p>Total yang harus dibayar: <strong>Rp{{ total }}</strong></p>
-    <p>Silakan transfer ke rekening:</p>
-    <p><strong>{{ account_number }}</strong></p>
-     <p>Scan QRIS berikut untuk membayar:</p>
-    <img src="{{ qris_url }}" alt="QRIS Code" style="width: 256px; height: 256px;">
-    <p>Order ID: {{ order_id }}</p>
-    <br><br>
-    <a href="/">Kembali ke menu utama</a>
+    <h1>Pembayaran</h1>
+    <p>Total yang harus dibayar: Rp{{ total }}</p>
+    <p>Nomor Rekening: {{ account_number }}</p>
+    <h2>Scan QR Code untuk Membayar</h2>
+    <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code">
+    <p>Terima kasih telah berbelanja!</p>
 </body>
 </html>
