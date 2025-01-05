@@ -3,3 +3,6 @@ qrcode
 Pillow
 flask
 midtransclient
+requests
+json
+datetime
