@@ -2,6 +2,35 @@ from flask import Flask, render_template, request
 import qrcode
 from io import BytesIO
 import base64
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+MIDTRANS_SERVER_KEY = os.getenv("MIDTRANS_SERVER_KEY")
+import requests
+import json
+from datetime import datetime
+
+def create_midtrans_qris(total_amount, order_id):
+    api_url = "https://api.sandbox.midtrans.com/v2/charge"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Basic {MIDTRANS_SERVER_KEY.encode('utf-8').decode('latin1')}"
+    }
+    payload = {
+        "payment_type": "qris",
+        "transaction_details": {
+            "order_id": order_id,
+            "gross_amount": total_amount
+        }
+    }
+
+    response = requests.post(api_url, headers=headers, data=json.dumps(payload))
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise Exception(f"Error Midtrans: {response.text}")
+
 
 app = Flask(__name__)
 
@@ -38,24 +67,40 @@ def clear_order():
     return render_template("index.html", menu=menu, order=order)
 
 @app.route("/bayar")
-def pay():
+def Pay():
     # Hitung total biaya
     total = sum(menu[item] * quantity for item, quantity in order.items())
-    # Buat data QR Code (misalnya mencantumkan rekening dan total)
-    qr_data = f"Transfer Rp{total} ke rekening: {account_number}"
-    qr = qrcode.QRCode()
-    qr.add_data(qr_data)
-    qr.make(fit=True)
+    order_id = f"order_{datetime.now().strftime('%Y%m%d%H%M%S')}"
 
-    # Simpan QR Code ke dalam memori
-    img = qr.make_image(fill="black", back_color="white")
-    buffered = BytesIO()
-    img.save(buffered, format="PNG")
-    qr_code_base64 = base64.b64encode(buffered.getvalue()).decode()
+    try:
+        # Panggil API Midtrans
+        midtrans_response = create_midtrans_qris(total, order_id)
+        qris_url = midtrans_response["actions"][0]["url"]  # URL QRIS
 
-    return render_template("Bayar.html", total=total, qr_code=qr_code_base64, account_number=account_number)
+        # Tampilkan QRIS di halaman
+        return render_template("Bayar.html", total=total, qris_url=qris_url, order_id=order_id)
+    except Exception as e:
+        return f"Terjadi kesalahan: {e}"
 
 if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
+@app.route("/webhook", methods=["POST"])
+def webhook():
+    data = request.json
+
+    # Ambil data notifikasi
+    order_id = data.get("order_id")
+    status = data.get("transaction_status")
+
+    # Verifikasi status pembayaran
+    if status == "settlement":
+        print(f"Pembayaran untuk {order_id} berhasil.")
+    elif status == "pending":
+        print(f"Pembayaran untuk {order_id} sedang menunggu.")
+    elif status in ["cancel", "deny", "expire"]:
+        print(f"Pembayaran untuk {order_id} gagal atau dibatalkan.")
+
+    return "OK", 200
