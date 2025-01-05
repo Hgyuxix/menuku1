@@ -10,8 +10,9 @@
     <p>Total yang harus dibayar: <strong>Rp{{ total }}</strong></p>
     <p>Silakan transfer ke rekening:</p>
     <p><strong>{{ account_number }}</strong></p>
-    <p>Scan QR Code untuk mempermudah pembayaran:</p>
-    <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code Pembayaran">
+     <p>Scan QRIS berikut untuk membayar:</p>
+    <img src="{{ qris_url }}" alt="QRIS Code" style="width: 256px; height: 256px;">
+    <p>Order ID: {{ order_id }}</p>
     <br><br>
     <a href="/">Kembali ke menu utama</a>
 </body>
